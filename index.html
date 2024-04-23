@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuck Norris Jokes & Gifs</title>
+</head>
+<body>
+    <h1>Chuck Norris Jokes & Gifs</h1>
+
+    <div id="joke"></div>
+    <div id="gif"></div>
+
+    <button onclick="getJokeAndGif()">Get Joke & Gif</button>
+
+    <script>
+
+        async function fetchChuckNorrisJoke() {
+            const response = await fetch('https://api.chucknorris.io/jokes/random');
+            const data = await response.json();
+            return data.value;
+        }
+
+
+        async function fetchChuckNorrisGif() {
+            const response = await fetch('https://api.giphy.com/v1/gifs/random?api_key=CAQ2iY975LuCSkgkorJl4ziTK8lbC2qU&tag=chuck+norris&rating=g');
+            const data = await response.json();
+            return data.data.image_url;
+        }
+
+
+        function displayJoke(joke) {
+            const jokeDiv = document.getElementById('joke');
+            jokeDiv.innerHTML = `<p>${joke}</p>`;
+        }
+
+
+        function displayGif(gifUrl) {
+            const gifDiv = document.getElementById('gif');
+            gifDiv.innerHTML = `<img src="${gifUrl}" alt="Chuck Norris GIF">`;
+        }
+
+
+        async function getJokeAndGif() {
+            try {
+                const joke = await fetchChuckNorrisJoke();
+                const gifUrl = await fetchChuckNorrisGif();
+
+                displayJoke(joke);
+                displayGif(gifUrl);
+            } catch (error) {
+                console.error(error);
+                alert('Error fetching joke or gif.');
+            }
+        }
+    </script>
+</body>
+</html>
